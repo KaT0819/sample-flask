@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Market Page
+{% endblock %}
+
+{% block content %}
+
+    <h1>Market Page</h1>
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <td scope="col">ID</td>
+                <td scope="col">NAME</td>
+                <td scope="col">バーコード</td>
+                <td scope="col">値段</td>
+                <td scope="col">オプション</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.barcode }}</td>
+                <td>¥{{ item.price }}</td>
+                <td>
+                    <button class="btn btn-outline btn-info">詳細</button>
+                    <button class="btn btn-outline btn-success">購入</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
