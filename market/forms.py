@@ -29,3 +29,11 @@ class LoginForm(FlaskForm):
     password = PasswordField(label='パスワード:', validators=[DataRequired()])
 
     submit = SubmitField(label='ログイン')
+
+
+class PurchaseItemForm(FlaskForm):
+    submit = SubmitField(label="商品を購入する")
+
+
+class SellItemForm(FlaskForm):
+    submit = SubmitField(label="商品を売る")

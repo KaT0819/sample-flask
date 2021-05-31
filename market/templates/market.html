@@ -6,31 +6,57 @@
 
 {% block content %}
 
-    <h1>Market Page</h1>
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <td scope="col">ID</td>
-                <td scope="col">NAME</td>
-                <td scope="col">バーコード</td>
-                <td scope="col">値段</td>
-                <td scope="col">オプション</td>
-            </tr>
-        </thead>
-        <tbody>
+<div class="row" style="margin-top: 20px; ">
+    <div class="col-8">
+        <h2>入手可能な商品</h2>
+        <p>商品を選んで購入</p>
+        <br>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <td scope="col">ID</td>
+                    <td scope="col">NAME</td>
+                    <td scope="col">バーコード</td>
+                    <td scope="col">値段</td>
+                    <td scope="col">オプション</td>
+                </tr>
+            </thead>
+            <tbody>
             {% for item in items %}
-            <tr>
-                <td>{{ item.id }}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.barcode }}</td>
-                <td>¥{{ item.price }}</td>
-                <td>
-                    <button class="btn btn-outline btn-info">詳細</button>
-                    <button class="btn btn-outline btn-success">購入</button>
-                </td>
-            </tr>
+                {% include 'includes/items_modals.html' %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.barcode }}</td>
+                    <td>¥{{ item.price }}</td>
+                    <td>
+                        <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#modal-itemDetail-{{ item.id }}">詳細</button>
+                        <button class="btn btn-outline btn-success" data-bs-toggle="modal" data-bs-target="#modal-itemPurchaseConfirm-{{ item.id }}">購入</button>
+                    </td>
+                </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>    
+    </div>
+    <div class="col-4">
+        <h2>Owned Items</h2>
+        <p>クリックして商品を戻します。</p>
+        <br>
+        <div class="row">
+            {% for item in owned_items %}
+                {% include 'includes/owned_items_modals.html' %}
+                <div class="card text-center bg-dark mb-10">
+                    <div class="card-body">
+                        <h5>{{ item.name }}</h5>
+                        <div>¥{{ item.price }}</div>
+
+                        <button class="btn btn-outline btn-danger" data-bs-toggle="modal" data-bs-target="#modal-itemSellingConfirm-{{ item.id }}">商品を売る</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

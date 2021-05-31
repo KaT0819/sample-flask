@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     email = db.Column(db.String(length=50), nullable=False, unique=True)
     password = db.Column(db.String(length=60), nullable=False)
-    budget = db.Column(db.Integer(), nullable=False, default=1000)
+    budget = db.Column(db.Integer(), nullable=False, default=100000)
     # リレーション
     items = db.relationship('Item', backref='owned_user', lazy=True)
 
@@ -29,9 +29,19 @@ class User(db.Model, UserMixin):
     def password_hash(self, plain_text_password):
         self.password = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
 
+    # パスワードのハッシュ化
     def check_password_collection(self, attempted_password):
         if bcrypt.check_password_hash(self.password, attempted_password):
             return True
+
+    # 購入可能チェック
+    def can_purchase(self, item):
+        return self.budget >= item.price
+
+    # 売却可能チェック
+    def can_sell(self, item):
+        return item in self.items
+
 
 class Item(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -43,3 +53,13 @@ class Item(db.Model):
 
     def __repr__(self):
         return f'Item {self.name}'
+
+    def buy(self, user):
+        self.owner = user.id
+        user.budget -= self.price
+        db.session.commit()
+
+    def sell(self, user):
+        self.owner = None
+        user.budget += self.price
+        db.session.commit()
