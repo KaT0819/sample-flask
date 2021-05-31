@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    ログイン
+{% endblock %}
+
+
+{% block content %}
+<body class="text-center">
+    <div class="container">
+        <div class="text-center">
+            <img class="mb-4 rounded-circle img-fluid w-25" src="/static/images/logo.jpg" alt="">
+            <h1 class="h3 mb-3 font-weight-normal">
+                ログイン
+            </h1>
+            <br>
+        </div>
+    
+        <form method="POST" action="" class="form-signin row g-3 align-items-center", style="color:white">
+            {{ form.hidden_tag() }}
+
+            {{ form.username.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.username(class="form-control", placeholder="User Name") }}</div>
+
+            {{ form.password.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.password(class="form-control", placeholder="パスワード") }}</div>
+
+            {{ form.submit(class="btn btn-lg btn-block btn-primary mt-5") }}
+
+            <div class="checkbox mt-5 mb-3">
+                <h6>アカウントをお持ちでない場合</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">アカウント登録</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+{% endblock %}

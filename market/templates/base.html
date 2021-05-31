@@ -28,17 +28,45 @@
                     <a class="nav-link" href="{{ url_for('market_page') }}">Market</a>
                 </li>
             </ul>
+            {% if current_user.is_authenticated %}
             <ul class="navbar-nav d-flex ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
+                    <a class="nav-link" style="color: lawngreen; font-weight: bold;" href="#">
+                        <i class="fas fa-coins">{{ current_user.prettier_budget }}</i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Register</a>
+                    <a class="nav-link" href="#">{{ current_user.username }}'s Peofile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout_page') }}">Logout</a>
                 </li>
             </ul>
+            {% else %}
+            <ul class="navbar-nav d-flex ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login_page') }}">ログイン</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('register_page') }}">アカウント登録</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
     </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
     {% block content %}
 

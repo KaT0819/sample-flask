@@ -6,29 +6,37 @@
 
 
 {% block content %}
-<body class="text-center">
+<body class="">
     <div class="container">
-        <form method="POST" action="" class="form-register", style="color:white">
-            {{ form.hidden_tag() }}
-            <img class="mb-4" src="https://res.cloudinary.com/jimshapedcoding/image/upload/v1597332609/android-icon-192x192_ove2a7.png" alt="">
-            <h1 class="h3 mb-3 font-weight-normal">
+        <div class="text-center">
+            <img class="mb-4 rounded-circle img-fluid w-25" src="/static/images/logo.jpg" alt="">
+            <h1 class="h3 mb-4 font-weight-normal">
                 アカウント登録
             </h1>
+        </div>
+
+        <form method="POST" action="" class="form-register row g-3 align-items-center", style="color:white">
+            {{ form.hidden_tag() }}
             <br>
 
-            {{ form.username.label() }}
-            {{ form.username(class="form-control", placeholder="User Name") }}
+            {{ form.username.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.username(class="form-control", placeholder="User Name") }}</div>
 
-            {{ form.email.label() }}
-            {{ form.email(class="form-control", placeholder="メールアドレス") }}
+            {{ form.email.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.email(class=" form-control", placeholder="メールアドレス") }}</div>
 
-            {{ form.password1.label() }}
-            {{ form.password1(class="form-control", placeholder="パスワード") }}
+            {{ form.password1.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.password1(class=" form-control", placeholder="パスワード") }}</div>
 
-            {{ form.password2.label() }}
-            {{ form.password2(class="form-control", placeholder="パスワード確認") }}
+            {{ form.password2.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">{{ form.password2(class="form-control", placeholder="パスワード確認") }}</div>
 
-            {{ form.submit(class="btn btn-lg btn-block btn-primary mt-4") }}
+            {{ form.submit(class="btn btn-lg btn-block btn-primary mt-5") }}
+
+            <div class="checkbox mt-5 mb-3 text-center">
+                <h6>すでにアカウントをお持ちの方</h6>
+                <a class="btn btn-sm btn-secondary" href="{{ url_for('login_page') }}">ログイン</a>
+            </div>
         </form>
     </div>
 </body>
