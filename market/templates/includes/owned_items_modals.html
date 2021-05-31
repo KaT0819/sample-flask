@@ -13,7 +13,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body  text-end">
-        <form action="" method="POST">
+        <form action="{{ url_for('market_sell_page') }}" method="POST">
           {{ selling_form.hidden_tag() }}
 
           <h4 class="text-center">

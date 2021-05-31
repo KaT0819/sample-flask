@@ -18,24 +18,6 @@ def home_page():
 def market_page():
     purchase_form = PurchaseItemForm()
     selling_form = SellItemForm()
-    if request.method == 'POST':
-        purchased_item = request.form.get('purchased_item')
-        p_item_object = Item.query.filter_by(name=purchased_item).first()
-        if p_item_object:
-            # 購入可能かチェック
-            if current_user.can_purchase(p_item_object):
-                p_item_object.buy(current_user)
-                flash(f'おめでとうございます！ {p_item_object.name} を¥{p_item_object.price} で購入しました。', category='success')
-            else:
-                flash(f'残念ですが残高不足のため {p_item_object.name} を購入できません。', category='danger')
-
-        sold_item = request.form.get('sold_item')
-        s_item_object = Item.query.filter_by(name=sold_item).first()
-        if s_item_object:
-            if current_user.can_sell(s_item_object):
-                s_item_object.sell(current_user)
-
-        # 購入後は一覧表示のため下記処理を継続
 
     items = Item.query.filter_by(owner=None)
     owned_items = Item.query.filter_by(owner=current_user.id)
@@ -50,15 +32,45 @@ def market_page():
 @app.route('/market/buy', methods=['POST'])
 @login_required
 def market_buy_page():
-    purchased_item = request.form.get('purchased_item')
-    p_item_object = Item.query.filter_by(name=purchased_item).first()
-    if p_item_object:
-        # 購入可能かチェック
-        if current_user.can_purchase(p_item_object):
-            p_item_object.buy(current_user)
-            flash(f'おめでとうございます！ {p_item_object.name} を¥{p_item_object.price} で購入しました。', category='success')
-        else:
-            flash(f'残念ですが残高不足のため {p_item_object.name} を購入できません。', category='danger')
+    form = PurchaseItemForm()
+
+    if form.validate_on_submit():
+        purchased_item = request.form.get('purchased_item')
+        p_item_object = Item.query.filter_by(name=purchased_item).first()
+        if p_item_object:
+            # 購入可能かチェック
+            if current_user.can_purchase(p_item_object):
+                p_item_object.buy(current_user)
+                flash(f'おめでとうございます！ {p_item_object.name} を¥{p_item_object.price} で購入しました。', category='success')
+            else:
+                flash(f'残念ですが残高不足のため {p_item_object.name} を購入できません。', category='danger')
+
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'エラー：{err_msg}', category='danger')
+
+    # 購入後は一覧表示のため下記処理を継続
+    return redirect(url_for('market_page'))
+
+
+@app.route('/market/sell', methods=['POST'])
+@login_required
+def market_sell_page():
+    form = SellItemForm()
+
+    if form.validate_on_submit():
+        sold_item = request.form.get('sold_item')
+        s_item_object = Item.query.filter_by(name=sold_item).first()
+        if s_item_object:
+            if current_user.can_sell(s_item_object):
+                s_item_object.sell(current_user)
+                flash(f'おめでとうございます！ {s_item_object.name} を¥{s_item_object.price} で販売しました。', category='success')
+            else:
+                flash(f'販売する際にエラーが発生しました。 {s_item_object.name} を販売できません。', category='danger')
+
+    if form.errors != {}:
+        for err_msg in form.errors.values():
+            flash(f'エラー：{err_msg}', category='danger')
 
     # 購入後は一覧表示のため下記処理を継続
     return redirect(url_for('market_page'))
