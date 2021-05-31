@@ -1,0 +1,35 @@
+<style>
+  .modal-content {
+    background-color: #333;
+  }
+</style>
+
+<!-- 商品売却モーダル -->
+<div class="modal fade" id="modal-itemSellingConfirm-{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body  text-end">
+        <form action="{{ url_for('market_sell_page') }}" method="POST">
+          {{ selling_form.hidden_tag() }}
+
+          <h4 class="text-center">
+            本当に売りますか？ \ {{ item.price }}
+          </h4>
+          <h6 class="text-center">
+            売る場合は、商品を売るボタンをクリックしてください。
+          </h6>
+
+          <input type="hidden" id="sold_item" name="sold_item" value="{{ item.name }}">
+          {{ selling_form.submit(class="btn btn-danger btn-block mt-4") }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>

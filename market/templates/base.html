@@ -15,14 +15,14 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
-        <a class="navbar-brand" href="#">Flask Market</a>
+        <a class="navbar-brand" href="{{ url_for('home_page') }}">Flask Market</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse " id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ url_for('home_page') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('home_page') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('market_page') }}">Market</a>
@@ -32,11 +32,13 @@
             <ul class="navbar-nav d-flex ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" style="color: lawngreen; font-weight: bold;" href="#">
-                        <i class="fas fa-coins">{{ current_user.prettier_budget }}</i>
+                        <i class="fas fa-coins"></i>{{ current_user.prettier_budget }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{{ current_user.username }}'s Peofile</a>
+                    <div class="navbar-text">
+                        {{ current_user.username }}
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('logout_page') }}">Logout</a>
@@ -86,7 +88,7 @@
 </body>
 <style>
     body {
-        background-color: #212121;
+        background-color: #333;
         color: #EFEFEF;
     }
 </style>

@@ -1,0 +1,56 @@
+<style>
+  .modal-content {
+    background-color: #333;
+  }
+</style>
+
+<!-- 商品詳細モーダル -->
+<div class="modal fade" id="modal-itemDetail-{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ item.description }}
+      </div>
+      <p class="text-end">¥{{ item.price }}</p>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 購入確認モーダル -->
+<div class="modal fade" id="modal-itemPurchaseConfirm-{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ item.name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body  text-end">
+        <form action="{{ url_for('market_buy_page') }}" method="POST">
+          {{ purchase_form.hidden_tag() }}
+          
+          <h4 class="text-center">
+            本当に購入しますか？ \ {{ item.price }}
+          </h4>
+          <h6 class="text-center">
+            購入する場合は購入ボタンをクリックしてください。
+          </h6>
+
+          <input type="hidden" id="purchased_item" name="purchased_item" value="{{ item.name }}">
+          {{ purchase_form.submit(class="btn btn-success btn-block mt-4") }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
